@@ -1,0 +1,223 @@
+﻿@{
+    string next = Blog.GetNextPage();
+    string prev = Blog.GetPrevPage();
+}
+<!doctype html>
+<html lang="en-us">
+<head prefix="og: http://ogp.me/ns#">
+    <meta charset="utf-8" />
+    <title>@Page.Title</title>
+    <meta name="description" content="@Page.Description" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
+
+    <link type="application/rsd+xml" rel="edituri" title="RSD" href="~/views/robots/rsd" />
+    <link type="application/rss+xml" rel="alternate" title="@Blog.Title" href="~/feed/rss/" />
+    <link type="application/atom+xml" rel="alternate" title="@Blog.Title" href="~/feed/atom/" />
+
+    <link rel="stylesheet" href="@Blog.FingerPrint("/Content/bootstrap.css", "//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css")" />
+    <link rel="stylesheet" href="@Blog.FingerPrint("/themes/" + Blog.Theme + "/site.css")" />
+    <link rel="shortcut icon" href="@Blog.FingerPrint("/favicon.ico")" type="image/x-icon" />
+    <link rel="stylesheet" href="content/transition-animations.css" />
+    <link rel="stylesheet" href="content/demo-single-page.css" />
+    <link href="content/simple-sidebar.css" rel="stylesheet">
+    <link href='http://fonts.googleapis.com/css?family=Roboto:400,700' rel='stylesheet' type='text/css'>
+    <link rel="dns-prefetch" href="http://gravatar.com/" />
+
+    @AdminCss()
+
+    <meta name="application-name" content="@Blog.Title" />
+    <meta name="msapplication-TileColor" content="#ffffff" />
+
+    <meta property="og:title" content="@Page.Title" />
+    <meta property="og:image" content="@Blog.Image" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="@(Request.Url.Scheme +"://" + Request.Url.Authority + Request.RawUrl)" />
+    @if (!string.IsNullOrEmpty(prev))
+    {
+        <link rel="prev" href="@prev" />
+    }
+    @if (!string.IsNullOrEmpty(next))
+    {
+        <link rel="next" href="@next" />
+    }
+</head>
+<body itemscope itemtype="http://schema.org/Blog" class="@(User.Identity.IsAuthenticated ? "admin": null)">
+
+    <div class="pt-wrapper">
+        <div class="pt-page pt-page-1">
+            <nav class="navbar navbar-default navbar-static-top custom-nav">
+                <div class="container">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a class="navbar-brand">@Blog.Title</a>
+                    </div>
+                    <div id="navbar" class="navbar-collapse collapse">
+                        <ul class="nav navbar-nav">
+                            <li class="pt-trigger disableScroll" data-animation="61" data-goto="-2"><a href="#">Projects</a></li>
+                            <li><a href="~/projects.cshtml">About</a></li>
+                        </ul>
+                        <ul class="nav navbar-nav navbar-right">
+                            @if (!User.Identity.IsAuthenticated)
+                            {
+                                <li>
+                                    <a href="@FormsAuthentication.LoginUrl?ReturnUrl=@Request.RawUrl">Sign in <i class="glyphicon glyphicon-log-in"></i></a>
+                                </li>
+                            }
+                            <li><a href="../navbar-fixed-top/">SignUp</a></li>
+                        </ul>
+                    </div><!--/.nav-collapse -->
+                </div>
+            </nav>
+
+            <div class="container">
+                <header role="banner">
+                    <span><a href="~/" itemprop="url">@Blog.Title</a></span>
+                    <br />
+                    <em>@Blog.Description</em>
+                </header>
+
+                <div class="container content-container">
+                    <div role="main" class="col-md-8">
+                        @RenderBody()
+                        @if (Page.ShowPaging != null)
+                        {
+                            <ul class="pager">
+                                @if (Blog.GetPosts().Count() > Blog.PostsPerPage * Blog.CurrentPage)
+                                {
+                                    <li class="previous"><a href="@Blog.GetPagingUrl(1)" rel="prev">&larr; Older</a></li>
+                                }
+                                @if (Blog.CurrentPage > 1)
+                                {
+                                    <li class="next"><a href="@Blog.GetPagingUrl(-1)" rel="next">Newer &rarr;</a></li>
+                                }
+                            </ul>
+                        }
+                    </div>
+
+                    <aside role="complementary" class="col-md-4">
+                        <div class="well">
+                            <h4>Blog Search</h4>
+                            <div class="input-group">
+                                <input class="form-control" type="text">
+                                <span class="input-group-btn">
+                                    <a href="#" class="btn btn-default"><span class="glyphicon glyphicon-zoom-in"></span></a>
+                                </span>
+                            </div>
+                            <!-- /.input-group -->
+                        </div>
+
+                        <!-- Blog Categories Well- slide panel header -->
+                        <div class="well">
+                            <div id="contentheader">
+                                <h4>Past posts <span class="glyphicon glyphicon-collapse-up" id="spin-arrow"></span>  </h4>
+                            </div>
+                            <!--Slide panel -->
+                            <div id="content">
+
+                                Recursive Drawing in processing
+
+                            </div>
+                        </div>
+                        <div class="well">
+                            <section>
+                                <h4>Categories</h4>
+                                <ul>
+                                    @foreach (var cat in Blog.GetCategories())
+                                    {
+                                        <li><a href="~/category/@HttpUtility.UrlEncode(cat.Key.ToLowerInvariant())">@cat.Key (@cat.Value)</a></li>
+                                    }
+                                </ul>
+                            </section>
+                        </div>
+                        <a class="twitter-timeline" href="https://twitter.com/jbokkers/lists/trending-microsoft" data-widget-id="603657125693382656">Tweets from https://twitter.com/jbokkers/lists/trending-microsoft</a>
+                        <script>!function (d, s, id) { var js, fjs = d.getElementsByTagName(s)[0], p = /^http:/.test(d.location) ? 'http' : 'https'; if (!d.getElementById(id)) { js = d.createElement(s); js.id = id; js.src = p + "://platform.twitter.com/widgets.js"; fjs.parentNode.insertBefore(js, fjs); } }(document, "script", "twitter-wjs");</script>
+                        <div class="well">
+                            <div id="contentheader">
+                                <h4>Links</h4>
+                            </div>
+                            <!--Slide panel -->
+                            <div id="content">
+
+                                ASP.net
+                                facebook
+                                twitter
+                                Github
+                            </div>
+                        </div>
+                    </aside>
+                </div>
+            </div>
+            <!--END PAGE 1-->
+        </div>
+
+        <!--START PAGE 2-->
+
+        <div class="pt-page pt-page-2">
+            <div id="wrapper">
+
+                <!-- Sidebar -->
+                <div id="sidebar-wrapper">
+                    <ul class="sidebar-nav">
+                        <li class="sidebar-brand">
+                            <a href="#">
+                                <h2>Projects</h2>
+                                <i class="fa fa-wrench"></i>
+                            </a>                      
+                                @foreach (var pro in Blog.getProjects())
+                                {
+                                    <li><a class="project" href="~/projects/@pro.Value">@pro.Key</a></li>
+                                }
+
+                        <li>
+                            <a class="pt-trigger enableScroll" data-animation="60" data-goto="-2">Back</a>
+                        </li>
+
+                    </ul>
+                </div>
+                <!-- /#sidebar-wrapper -->
+                <!-- Page Content -->
+                <div id="page-content-wrapper">
+                 
+
+                                <iframe src="/projects/main/Index.html"></iframe>
+
+          
+                </div>
+                <!-- /#page-content-wrapper -->
+
+            </div>
+            <!-- /#wrapper -->
+
+        </div>
+
+
+
+
+    @if ((Blog.CurrentPost != null && Blog.CurrentPost.AreCommentsOpen(Context)) || Blog.IsNewPost)
+    {
+        <script src="@Blog.FingerPrint("/scripts/comments.js")" async defer></script>
+    }
+
+    @if (User.Identity.IsAuthenticated)
+    {
+        @RenderPage("~/views/AdminMenu.cshtml")
+    }
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="scripts/transition.js"></script>
+</body>
+</html>
+
+@helper AdminCss()
+{
+    if (User.Identity.IsAuthenticated)
+    {
+        <link href="@Blog.FingerPrint("/Content/admin.css")" rel="stylesheet" />
+    }
+}
+
+

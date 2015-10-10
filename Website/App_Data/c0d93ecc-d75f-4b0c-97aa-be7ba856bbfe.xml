@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<post>
+  <title>Recursive drawing in Processing</title>
+  <slug>my-new-post</slug>
+  <author>demo</author>
+  <pubDate>2015-05-26 20:14:49</pubDate>
+  <lastModified>2015-06-01 15:30:15</lastModified>
+  <excerpt>Drawing a recursive tree in processing</excerpt>
+  <content>Processing is a free open source development environment that allows users to experiment with computer graphics using Java. Its a good tool for teaching general programming techniques using a visual medium. See &lt;a href="https://processing.org/"&gt;processing.org/&lt;/a&gt;&lt;br/&gt;&lt;br/&gt;One of the many things you can do with processing is draw fractals.&lt;br/&gt;The term &lt;strong&gt;&lt;em&gt;fractal&lt;/em&gt;&lt;/strong&gt; (from the Latin &lt;em&gt;fractus&lt;/em&gt;, meaning “broken”) was coined by the mathematician Benoit Mandelbrot in 1975. In his seminal work “The Fractal Geometry of Nature,” he defines a fractal as “a rough or fragmented geometric shape that can be split into parts, each of which is (at least approximately) a reduced-size copy of the whole.”&lt;br/&gt;&lt;br/&gt;&lt;img alt="" src="/posts/files/73a29012-4058-4319-bd6c-bea9781d2b38.png"/&gt;&lt;br/&gt;&lt;br/&gt;Using recursion in processing, we can create complex fractals like the one above using relatively few lines of code.&lt;br/&gt;&lt;br/&gt;&lt;span&gt;Recursion can be defined as:&lt;br/&gt; Relating to or involving a program or routine of which a part requires the application of the whole, so that its explicit interpretation requires in general many successive executions.&lt;/span&gt;&lt;br/&gt;&lt;br/&gt;Or in basic terms it's a method that calls itself until an exit condition is met. &lt;br/&gt;Here's a basic example:&lt;br/&gt;&lt;pre class="code"&gt;void setup() {
+  size(640, 360);
+  drawCircle(320,160,700);
+}
+
+void drawCircle(int x, int y, float radius) {
+  ellipse(x, y, radius, radius);
+  //Every recursive function needs an exit condition, or youll be drawing circles forever!
+  //Here ours will terminate when the radius in smaller than 2 pixels 
+  if(radius &amp;gt; 2) {
+    radius *= 0.75f;
+
+    drawCircle(x, y, radius);
+  }
+}&lt;br/&gt;&lt;/pre&gt;This simple program will draw a circle in the middle of the screen, sets the radius to 0.75% of what it is currently and then re draws the circle until the radius gets to small. This results in: &lt;br/&gt;&lt;img alt="" src="/posts/files/8981e145-f319-4b8e-a00d-199ce7c2b93c.png"/&gt;&lt;br/&gt;&lt;br/&gt;</content>
+  <ispublished>true</ispublished>
+  <categories>
+    <category>Processing</category>
+  </categories>
+  <comments>
+    <comment isAdmin="false" isApproved="true" id="9d773a1b-1360-4de5-9a7e-e25c5e6d46aa">
+      <author>Test COMMENT</author>
+      <email>ERT135@GMAIL.COM</email>
+      <website></website>
+      <ip>::1</ip>
+      <userAgent>Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/43.0.2357.81 Safari/537.36</userAgent>
+      <date>2015-05-26 21:5:37</date>
+      <content>cOMMENT</content>
+    </comment>
+    <comment isAdmin="false" isApproved="true" id="5c44c6e3-50ef-40d0-853c-dc213e537ed9">
+      <author>Tester</author>
+      <email>tester@gmail.com</email>
+      <website>http://www.bing.com/</website>
+      <ip>81.144.173.17</ip>
+      <userAgent>Mozilla/5.0 (Windows NT 6.3; WOW64; rv:38.0) Gecko/20100101 Firefox/38.0</userAgent>
+      <date>2015-05-28 13:54:00</date>
+      <content>Test TestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTest</content>
+    </comment>
+    <comment isAdmin="false" isApproved="true" id="d918cfa8-2db9-4634-9f46-5cb77e76681d">
+      <author>Cutatta Fish</author>
+      <email>fish@sparrowking.com</email>
+      <website></website>
+      <ip>66.249.81.217</ip>
+      <userAgent>Mozilla/5.0 (Linux; Android 4.3; GT-I9300 Build/JSS15J) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.111 Mobile Safari/537.36</userAgent>
+      <date>2015-05-30 02:37:25</date>
+      <content>Story pure and true.</content>
+    </comment>
+  </comments>
+</post>

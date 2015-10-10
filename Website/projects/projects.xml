@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<projects>
+<project>
+  <title>Drawing application</title>
+  <description>A simple font end draing application created in jquery</description>
+  <path>draw/index.html</path>
+  <author>Robert Smith</author>
+</project>
+<project>
+  <title>Ajax loader</title>
+  <description>A simple font end draing application created in jquery</description>
+  <path>ajaxexample/index.html</path>
+  <author>Reminder</author>
+</project>
+</projects>
